@@ -16,15 +16,37 @@ void file_close(vector<Task>& Tasks) {
 }
 
 void add_task(vector<Task>& Tasks) {
-
+	system("cls");
+	cout << "Enter task: ";
+	Task t;
+	cin >> t.title;
+	Tasks.push_back(t);
 }
 
 void delete_task(vector<Task>& Tasks) {
-
+	system("cls");
+	cout << "Enter task position you want to delete: ";
+	unsigned int pos;
+	cin >> pos;
+	Tasks.erase(Tasks.begin() + pos - 1);
 }
 
 void show_tasks(vector<Task>& Tasks) {
+	system("cls");
 
+	if (Tasks.empty()) {
+		cout << "No tasks";
+		getchar();
+		getchar();
+		return;
+	}
+
+	for (auto &task : Tasks) {
+		cout << "* " << task.title << endl;
+	}
+
+	getchar();
+	getchar();
 }
 
 void file_opening_choice_menu(vector<Task> &Tasks) {
