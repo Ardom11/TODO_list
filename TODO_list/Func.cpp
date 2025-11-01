@@ -1,5 +1,6 @@
 #include "Task.h"
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <vector>
 
@@ -7,8 +8,26 @@ using namespace std;
 
 string filename;
 
-void file_open(vector<Task>& Tasks, string filename) {
+int file_open(vector<Task>& Tasks, string sFilename) {
+	ifstream File(sFilename + ".txt");
 
+	if (!File) {
+		system("cls");
+		cout << "Error while opening file. Try again.";
+		getchar();
+		getchar();
+		return 1;
+	}
+
+	unsigned int i = 0;
+	string text;
+	while (getline(File, text)) {
+		Task t;
+		t.title = text;
+		Tasks.push_back(t);
+	}
+
+	return 0;
 }
 
 void file_close(vector<Task>& Tasks) {
@@ -79,7 +98,7 @@ void file_opening_choice_menu(vector<Task> &Tasks) {
 	int iUserChoice, iStatus = 1;
 	while (iStatus) {
 		system("cls");
-		cout << "Task manager" << endl << "1 Open new file" << endl << "2 Open existing file" << endl;
+		cout << "Task manager" << endl << "1 Create new file" << endl << "2 Open existing file" << endl << "3 Exit" << endl;
 		cin >> iUserChoice;
 
 		switch (iUserChoice) {
@@ -87,16 +106,22 @@ void file_opening_choice_menu(vector<Task> &Tasks) {
 			system("cls");
 			cout << "Enter file name: " << endl;
 			cin >> filename;
-			file_open(Tasks, filename);
 			iStatus = 0;
 			break;
+
 		case 2:
 			system("cls");
 			cout << "Enter file name: " << endl;
 			cin >> filename;
-			file_open(Tasks, filename);
+			if (file_open(Tasks, filename) == 1) {
+				break;
+			}
 			iStatus = 0;
 			break;
+
+		case 3:
+			exit(0);
+
 		default:
 			cout << "Wrong choice" << endl;
 		}

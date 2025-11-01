@@ -6,7 +6,7 @@
 
 using namespace std;
 
-void file_open(vector<Task>& Tasks, string filename);
+int file_open(vector<Task>& Tasks, string filename);
 
 void file_close(vector<Task>& Tasks);
 
