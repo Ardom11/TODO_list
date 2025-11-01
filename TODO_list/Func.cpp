@@ -23,28 +23,54 @@ void add_task(vector<Task>& Tasks) {
 	Tasks.push_back(t);
 }
 
-void delete_task(vector<Task>& Tasks) {
-	system("cls");
-	cout << "Enter task position you want to delete: ";
-	unsigned int pos;
-	cin >> pos;
-	Tasks.erase(Tasks.begin() + pos - 1);
-}
-
 void show_tasks(vector<Task>& Tasks) {
 	system("cls");
 
 	if (Tasks.empty()) {
 		cout << "No tasks";
+		return;
+	}
+
+	for (auto& task : Tasks) {
+		cout << "* " << task.title << endl;
+	}
+}
+
+void delete_task(vector<Task>& Tasks) {
+	system("cls");
+
+	if (Tasks.empty()) {
+		cout << "No tasks to delete";
 		getchar();
 		getchar();
 		return;
 	}
 
-	for (auto &task : Tasks) {
-		cout << "* " << task.title << endl;
+	show_tasks(Tasks);
+
+	unsigned int pos;
+	unsigned int iStatus = 1;
+	while(iStatus)
+	{
+		cout << "Enter task position you want to delete(0 to exit): ";
+		cin >> pos;
+
+		if (pos == 0) {
+			return;
+		}
+
+		if (pos < 0 || pos > Tasks.size()) {
+			cout << "Wrong position" << endl;
+			continue;
+		}
+
+		iStatus = 0;
 	}
 
+	Tasks.erase(Tasks.begin() + pos - 1);
+
+	system("cls");
+	show_tasks(Tasks);
 	getchar();
 	getchar();
 }
@@ -87,6 +113,8 @@ void main_menu(vector<Task>& Tasks) {
 		switch (iChoice) {
 		case 1:
 			show_tasks(Tasks);
+			getchar();
+			getchar();
 			break;
 		case 2:
 			add_task(Tasks);
