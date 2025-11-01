@@ -8,8 +8,8 @@ using namespace std;
 
 string filename;
 
-int file_open(vector<Task>& Tasks, string sFilename) {
-	ifstream File(sFilename + ".txt");
+int file_open(vector<Task>& Tasks) {
+	ifstream File(filename + ".txt");
 
 	if (!File) {
 		system("cls");
@@ -27,11 +27,27 @@ int file_open(vector<Task>& Tasks, string sFilename) {
 		Tasks.push_back(t);
 	}
 
+	File.close();
 	return 0;
 }
 
-void file_close(vector<Task>& Tasks) {
+int file_close(vector<Task>& Tasks) {
+	ofstream File(filename + ".txt");
 
+	if (!File) {
+		system("cls");
+		cout << "Error while saving file. Try again.";
+		getchar();
+		getchar();
+		return 1;
+	}
+
+	for (int i = 0; i < Tasks.size(); i++) {
+		File << Tasks[i].title << endl;
+	}
+
+	File.close();
+	return 0;
 }
 
 void add_task(vector<Task>& Tasks) {
@@ -113,7 +129,7 @@ void file_opening_choice_menu(vector<Task> &Tasks) {
 			system("cls");
 			cout << "Enter file name: " << endl;
 			cin >> filename;
-			if (file_open(Tasks, filename) == 1) {
+			if (file_open(Tasks) == 1) {
 				break;
 			}
 			iStatus = 0;
@@ -148,7 +164,11 @@ void main_menu(vector<Task>& Tasks) {
 			delete_task(Tasks);
 			break;
 		case 4:
-			file_close(Tasks);
+			if (file_close(Tasks) == 1) {
+				break;
+			}
+			system("cls");
+			cout << "Exiting";
 			iStatus = 0;
 			break;
 		}
